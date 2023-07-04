@@ -1,22 +1,43 @@
 const express = require("express");
+const multer = require("multer");
 
 const router = express.Router();
-const connection = require("./database");
 
-connection.connect((err) => {
-  if (err) {
-    console.error("not ok");
-  } else {
-    console.info("it's ok");
-  }
-});
+const upload = multer({ dest: "./public/uploads/" });
+const productControllers = require("./controllers/productControllers");
+const userControllers = require("./controllers/userControllers");
 
-// const itemControllers = require("./controllers/itemControllers");
+// call middleware ******************************************
+const { hashPassword } = require("./middlewares/auth");
+const { verifyEmail } = require("./middlewares/verifyEmail");
+const loginControllers = require("./controllers/loginControllers");
 
-// router.get("/items", itemControllers.browse);
-// router.get("/items/:id", itemControllers.read);
-// router.put("/items/:id", itemControllers.edit);
-// router.post("/items", itemControllers.add);
-// router.delete("/items/:id", itemControllers.destroy);
+// call service ******************************************
+const { verifyPassword } = require("./services/verifyPassword");
+const uploadFile = require("./services/uploadFile");
+
+// public routes
+router.get("/products", productControllers.getAllProducts);
+router.get("/products/:id", productControllers.getOneProduct);
+
+router.get("/users", userControllers.getAllUsers);
+router.get("/users/:id", userControllers.getOneUser);
+
+router.post("/api/image", upload.single("photo"), uploadFile.postFile);
+
+router.post(
+  "/login",
+  loginControllers.getUserByEmailWithPasswordAndPassToNext,
+  verifyPassword
+);
+
+router.post("/register", verifyEmail, hashPassword, userControllers.createUser);
+router.delete("/user/:id", userControllers.deleteOneUser);
+
+// router.use(verifyToken);
+
+router.post("/products", productControllers.addProducts);
+router.put("/products/:id", productControllers.updateProduct);
+router.delete("/products/:id", productControllers.deleteProduct);
 
 module.exports = router;
