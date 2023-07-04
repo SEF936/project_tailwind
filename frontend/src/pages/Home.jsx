@@ -1,5 +1,5 @@
-import Cardproduct from "@components/CardProduct";
+import AllProducts from "../components/AllProducts";
 
 export default function Home() {
-  return <Cardproduct />;
+  return <AllProducts />;
 }

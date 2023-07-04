@@ -1,7 +1,7 @@
 const models = require("../models");
 
-const browse = (req, res) => {
-  models.item
+const getAllProducts = (req, res) => {
+  models.product
     .findAll()
     .then(([rows]) => {
       res.send(rows);
@@ -12,8 +12,8 @@ const browse = (req, res) => {
     });
 };
 
-const read = (req, res) => {
-  models.item
+const getOneProduct = (req, res) => {
+  models.product
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -28,15 +28,15 @@ const read = (req, res) => {
     });
 };
 
-const edit = (req, res) => {
-  const item = req.body;
-
+const updateProduct = (req, res) => {
+  const { product } = req.body;
+  console.info(product);
   // TODO validations (length, format...)
 
-  item.id = parseInt(req.params.id, 10);
+  product.id = parseInt(req.params.id, 10);
 
-  models.item
-    .update(item)
+  models.product
+    .update(product)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -50,15 +50,15 @@ const edit = (req, res) => {
     });
 };
 
-const add = (req, res) => {
-  const item = req.body;
+const addProducts = (req, res) => {
+  const { product } = req.body;
 
   // TODO validations (length, format...)
 
-  models.item
-    .insert(item)
+  models.product
+    .insert(product)
     .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201);
+      res.location(`/products/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
@@ -66,8 +66,8 @@ const add = (req, res) => {
     });
 };
 
-const destroy = (req, res) => {
-  models.item
+const deleteProduct = (req, res) => {
+  models.product
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -83,9 +83,11 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
-  browse,
-  read,
-  edit,
-  add,
-  destroy,
+  getAllProducts,
+  getOneProduct,
+  updateProduct,
+  addProducts,
+  // uploadFile,
+  // handleFile,
+  deleteProduct,
 };
