@@ -2,7 +2,7 @@ const AbstractManager = require("./AbstractManager");
 
 class LoginManager extends AbstractManager {
   constructor() {
-    super({ table: "users" });
+    super({ table: "user" });
   }
 
   insert(firstname, lastname, email, hashedPassword) {

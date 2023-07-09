@@ -14,18 +14,24 @@ const hashingOptions = {
 
 const verifyPassword = (req, res) => {
   argon2
-    .verify(req.user.hashedPassword, req.body.password, hashingOptions)
+    .verify(req.user.password, req.body.password, hashingOptions)
     .then((isVerified) => {
       if (isVerified) {
         const payload = { sub: req.user.id, role: "admin" };
 
         const token = jwt.sign(payload, JWT_SECRET, {
           algorithm: "HS512",
-          expiresIn: "12h",
+          expiresIn: "1h",
         });
 
-        delete req.user.hashedPassword;
-        res.cookie("usertoken", token).send({ token, user: req.user });
+        delete req.user.password;
+        res
+          .status(200)
+          .cookie("usertoken", token, {
+            httpOnly: false,
+            expires: new Date(Date.now() + 1000 * 60 * 60),
+          })
+          .send({ token, user: req.user });
       } else {
         res.status(401).send({ message: "Not connected" });
       }
