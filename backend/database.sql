@@ -8,7 +8,7 @@ CREATE TABLE `user` (
   `email` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(254) NOT NULL,
   `is_admin` BOOL NOT NULL,
-  `creation_date` DATE DEFAULT (CURRENT_DATE) NOT NULL
+  `creation_date` DATE NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 DROP TABLE IF EXISTS `category`;
@@ -28,7 +28,7 @@ CREATE TABLE `product` (
   `size` VARCHAR(80) NULL,
   `price` FLOAT NOT NULL,
   `promotionalPrice` FLOAT NULL,
-  `adding_date` DATE DEFAULT (CURRENT_DATE) NOT NULL,
+  `adding_date` DATE NOT NULL,
     CONSTRAINT category_product FOREIGN KEY (`category_id`) 
     REFERENCES `category`(`id_category`)
     ON DELETE CASCADE

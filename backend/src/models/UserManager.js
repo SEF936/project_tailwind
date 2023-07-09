@@ -32,7 +32,7 @@ class UserManager extends AbstractManager {
         lastname,
         email,
         password,
-        is_admin) values (?, ?, ?, ?, ?)`,
+        is_admin, creation_date) values (?, ?, ?, ?, ?, NOW())`,
       [user.firstname, user.lastname, user.email, user.password, user.is_admin]
     );
   }

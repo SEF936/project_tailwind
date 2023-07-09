@@ -72,7 +72,7 @@ function ProductsList() {
         <tbody>
           {products &&
             products.map((product) => (
-              <tr key={product.id}>
+              <tr key={product.id_product}>
                 <td className=" p-2 flex justify-center items-center border-slate-700">
                   {/* <div className="picture-container h-16 w-16 md:w-32 h-32 p-1"> */}
                   <img
@@ -94,7 +94,7 @@ function ProductsList() {
                   {product.description}
                 </td>
                 <td className="hidden md:table-cell p-2 text-center border border-slate-700">
-                  {product.category_id}
+                  {product.title}
                 </td>
                 <td className="hidden lg:table-cell p-2 text-center border border-slate-700">
                   {product.image}

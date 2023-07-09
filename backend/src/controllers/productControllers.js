@@ -2,7 +2,7 @@ const models = require("../models");
 
 const getAllProducts = (req, res) => {
   models.product
-    .findAll()
+    .findAllProductsWithCategory()
     .then(([rows]) => {
       res.send(rows);
     })
