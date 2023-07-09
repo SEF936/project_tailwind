@@ -34,15 +34,19 @@ function UsersList() {
       >
         Ajouter un utilisateur
       </button>
-      <table className="border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto">
+      <table className="border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto mx-auto">
         <caption className="caption-top">Table des utilisateurs</caption>
         <thead>
           <tr>
             <th className=" p-4 border border-slate-600 ...">Nom</th>
             <th className=" p-4 border border-slate-600 ...">Prénom</th>
-            <th className=" p-4 border border-slate-600 ...">Email</th>
+            <th className="hidden md:table-cell p-4 border border-slate-600 ...">
+              Email
+            </th>
             <th className=" p-4 border border-slate-600 ...">Admin</th>
-            <th className=" p-4 border border-slate-600 ...">Crée le</th>
+            <th className="hidden md:table-cell p-4 border border-slate-600 ...">
+              Crée le
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -63,9 +67,11 @@ function UsersList() {
                 <td className=" p-2 border border-slate-700">
                   {user.firstname}
                 </td>
-                <td className="p-2 border border-slate-700">{user.email}</td>
-                <td className="p-2 border border-slate-700">{user.roles}</td>
-                <td className="p-2 border border-slate-700">
+                <td className="hidden md:table-cell p-2 border border-slate-700">
+                  {user.email}
+                </td>
+                <td className="p-2 border border-slate-700">{user.is_admin}</td>
+                <td className="hidden md:table-cell p-2 border border-slate-700">
                   {user.creation_date}
                 </td>
                 <td className="p-2 border border-slate-700">

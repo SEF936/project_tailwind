@@ -31,15 +31,9 @@ class UserManager extends AbstractManager {
       `insert into ${this.table} (firstname,
         lastname,
         email,
-        hashpassword,
+        password,
         is_admin) values (?, ?, ?, ?, ?)`,
-      [
-        user.firstname,
-        user.lastname,
-        user.email,
-        user.hashedPassword,
-        user.is_admin,
-      ]
+      [user.firstname, user.lastname, user.email, user.password, user.is_admin]
     );
   }
 
@@ -51,9 +45,10 @@ class UserManager extends AbstractManager {
   }
 
   selectEmail(email) {
-    return this.database.query(`select * from ${this.table} where email = ?`, [
-      email,
-    ]);
+    return this.database.query(
+      `select id_user, firstname, lastname, password, is_admin from ${this.table} where email = ?`,
+      [email]
+    );
   }
 }
 

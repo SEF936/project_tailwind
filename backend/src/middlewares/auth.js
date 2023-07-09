@@ -32,26 +32,21 @@ const hashPassword = (req, res, next) => {
 };
 
 const verifyToken = (req, res, next) => {
-  try {
-    const authorizationHeader = req.get("Authorization");
-
-    if (authorizationHeader == null) {
-      throw new Error("Authorization header is missing");
-    }
-
-    const [type, token] = authorizationHeader.split(" ");
-
-    if (type !== "Bearer") {
-      throw new Error("Authorization header has not the 'Bearer' type");
-    }
-
-    req.payload = jwt.verify(token, process.env.JWT_SECRET);
-
-    next();
-  } catch (err) {
-    console.error(err);
-
-    res.sendStatus(401);
+  if (req.cookies) {
+    jwt.verify(
+      req.cookies.user_token,
+      process.env.JWT_SECRET,
+      (err, decode) => {
+        if (err) {
+          res.status(401).send("connectez vous pour acceder au site");
+        } else {
+          req.user_token = decode;
+          next();
+        }
+      }
+    );
+  } else {
+    res.status(401).send("email ou mot de passe incorrect");
   }
 };
 

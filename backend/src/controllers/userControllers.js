@@ -71,7 +71,6 @@ const edit = (req, res) => {
 
 const createUser = (req, res) => {
   const user = req.body;
-  console.info(user.hashedPassword);
   // TODO validations (length, format...)
   models.user
     .insert(user)

@@ -6,7 +6,7 @@ CREATE TABLE `user` (
 `firstname` VARCHAR(100) NOT NULL,
 `lastname` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL UNIQUE,
-  `hashpassword` VARCHAR(254) NOT NULL,
+  `password` VARCHAR(254) NOT NULL,
   `is_admin` BOOL NOT NULL,
   `creation_date` DATE DEFAULT (CURRENT_DATE) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `product` (
 
 -- ___________________________________ POPULATE TABLES ___________________________________ 
 -- Create user
-INSERT INTO `user` (`firstname`, `lastname`, `email`, `hashpassword`, `is_admin`, `creation_date`) 
+INSERT INTO `user` (`firstname`, `lastname`, `email`, `password`, `is_admin`, `creation_date`) 
 VALUES 
 ('Nicolas','Lopes','admin@gmail.com', '$argon2id$v=19$m=19893.36898592844,t=2,p=1$mkm5zcvh7mTtDGu0UsOZxw$bcLPeyJqaJGN4mX2aILxsnbeCszJrBJUJDjEXewSrE8', 1, "2023-03-03"),
 ('sarah','Lopes','user@gmail.com', '$argon2id$v=19$m=19893.36898592844,t=2,p=1$+RUYi4CW31MZnxxRBO9Alw$u0TJVC8gPPUeb/bj/1sjeexnbnIBYP7aLk2ydKm2odU', 0, "2023-03-03");
