@@ -1,4 +1,4 @@
-import ProductsList from "../components/ProductsListAdmin";
+import ProductsList from "../components/admin/ProductsListAdmin";
 import UsersList from "../components/UsersList";
 
 function Panel() {

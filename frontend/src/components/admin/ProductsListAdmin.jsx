@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import oeil from "../assets/view.png";
+import AddProducts from "./AddProduct";
+import oeil from "../../assets/view.png";
+import UpdateProduct from "./UpdateProduct";
 
 function ProductsList() {
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [showUpdateProdcut, setShowUpdateProduct] = useState(false);
+  const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [products, setProducts] = useState([]);
+  const [currentProduct, setCurrentProduct] = useState([]);
   // const [currentUser, setCurrentUser] = useState([]);
   useEffect(() => {
     axios
@@ -14,10 +17,24 @@ function ProductsList() {
         setProducts(res.data);
       })
       .catch((err) => console.error(err));
-  }, [showAddProduct, setShowUpdateProduct, showUpdateProdcut]);
+  }, [
+    showAddProduct,
+    setShowAddProduct,
+    setShowUpdateProduct,
+    !showUpdateProduct,
+    currentProduct,
+  ]);
 
   return (
     <div className="display">
+      {showAddProduct && <AddProducts setShowAddProduct={setShowAddProduct} />}
+      {showUpdateProduct && (
+        <UpdateProduct
+          setShowUpdateProduct={setShowUpdateProduct}
+          showUpdateProduct={showUpdateProduct}
+          currentProduct={currentProduct}
+        />
+      )}
       {/* {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
       {showUpdateUser && (
         <ModifyUser
@@ -119,8 +136,8 @@ function ProductsList() {
                     type="button"
                     className="text-center"
                     onClick={() => {
-                      // eslint-disable-next-line no-sequences
-                      return setShowUpdateProduct(true);
+                      setShowUpdateProduct(true);
+                      setCurrentProduct(product);
                       // , setCurrentUser(user);
                     }}
                   >

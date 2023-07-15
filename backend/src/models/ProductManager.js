@@ -8,7 +8,7 @@ class ProductManager extends AbstractManager {
 
   insert(product) {
     return this.database.query(
-      `insert into ${this.table} (name, description, category_id, image, color, size, price, promotionalPrice) values (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (name, description, category_id, image, color, size, price, promotionalPrice, adding_date) values (?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
         product.name,
         product.description,
@@ -27,6 +27,13 @@ class ProductManager extends AbstractManager {
       `update ${this.table} set regular_price = ? where id = ?`,
 
       [product.price, product.promotionalPrice, product.id]
+    );
+  }
+
+  deleteProductById(id) {
+    return this.database.query(
+      `delete from ${this.table} where id_product = ?`,
+      [id]
     );
   }
 }
