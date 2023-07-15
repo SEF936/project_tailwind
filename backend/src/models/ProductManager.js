@@ -6,6 +6,12 @@ class ProductManager extends AbstractManager {
     super({ table: "product" });
   }
 
+  findAllProductsWithCategory() {
+    return this.database.query(
+      `select id_product, name, description, category_id, image, color, size, price, promotionalPrice, adding_date, title from  ${this.table} p JOIN category c ON c.id_category=p.id_product`
+    );
+  }
+
   insert(product) {
     return this.database.query(
       `insert into ${this.table} (name, description, category_id, image, color, size, price, promotionalPrice, adding_date) values (?, ?, ?, ?, ?, ?, ?, ?, NOW())`,

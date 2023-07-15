@@ -52,7 +52,7 @@ function UsersList() {
         <tbody>
           {users &&
             users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user.id_user}>
                 {/* <div className="picture-container">
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${

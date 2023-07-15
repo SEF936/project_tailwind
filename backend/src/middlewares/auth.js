@@ -3,8 +3,6 @@ require("dotenv").config();
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 
-// const { JWT_SECRET } = process.env;
-
 const hashingOptions = {
   type: argon2.argon2id,
   memoryCost: 2 ** 16,
