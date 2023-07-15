@@ -5,7 +5,7 @@ function CardProduct({ product }) {
     <div className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg">
       <img
         className="h-96 w-full object-cover object-center"
-        src={product.imageUrl[0]}
+        src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${product.image}`}
         alt="Product"
       />
       <div className="p-4">
@@ -13,11 +13,11 @@ function CardProduct({ product }) {
           {product.name}
         </h2>
         <p className="mb-2 text-base dark:text-gray-300 text-gray-700">
-          Product description goes here.
+          {product.description}
         </p>
         <div className="flex items-center">
           <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
-            {product.regular_price} €
+            {product.price} €
           </p>
           {/* <p className="text-base  font-medium text-gray-500 line-through dark:text-gray-300">
             $25.00
