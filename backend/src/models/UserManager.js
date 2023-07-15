@@ -10,8 +10,8 @@ class UserManager extends AbstractManager {
       `select firstname,
       lastname,
       email,
-      is_admin,
-      creation_date, id_user from  ${this.table}`
+      r.title,
+      creation_date, id_user from  ${this.table} JOIN role r ON role_id = r.id_role`
     );
   }
 

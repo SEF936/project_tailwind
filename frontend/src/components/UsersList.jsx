@@ -70,7 +70,7 @@ function UsersList() {
                 <td className="hidden md:table-cell p-2 border border-slate-700">
                   {user.email}
                 </td>
-                <td className="p-2 border border-slate-700">{user.is_admin}</td>
+                <td className="p-2 border border-slate-700">{user.title}</td>
                 <td className="hidden md:table-cell p-2 border border-slate-700">
                   {user.creation_date}
                 </td>
