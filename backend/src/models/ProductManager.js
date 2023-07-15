@@ -8,7 +8,7 @@ class ProductManager extends AbstractManager {
 
   findAllProductsWithCategory() {
     return this.database.query(
-      `select id_product, name, description, category_id, image, color, size, price, promotionalPrice, adding_date, title from  ${this.table} p JOIN category c ON c.id_category=p.id_product`
+      `select p.id_product, p.name, p.description, p.category_id, p.image, p.color, p.size, p.price, p.promotionalPrice, p.adding_date, c.title from  ${this.table} p JOIN category c ON c.id_category = p.category_id`
     );
   }
 
