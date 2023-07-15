@@ -35,6 +35,13 @@ class ProductManager extends AbstractManager {
       [product.price, product.promotionalPrice, product.id]
     );
   }
+
+  deleteProductById(id) {
+    return this.database.query(
+      `delete from ${this.table} where id_product = ?`,
+      [id]
+    );
+  }
 }
 
 module.exports = ProductManager;

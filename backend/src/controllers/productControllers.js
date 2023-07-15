@@ -68,7 +68,7 @@ const addProducts = (req, res) => {
 
 const deleteProduct = (req, res) => {
   models.product
-    .delete(req.params.id)
+    .deleteProductById(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
