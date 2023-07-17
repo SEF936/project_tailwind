@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // import AddUser from "./AddUser";
 import oeil from "../assets/view.png";
+import AddUser from "./admin/AddUser";
 // import ModifyUser from "../GlobalComponents/ModifyUser";
 
 function UsersList() {
@@ -11,7 +12,9 @@ function UsersList() {
   // const [currentUser, setCurrentUser] = useState([]);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/users`, {
+        withCredentials: true,
+      })
       .then((res) => {
         setUsers(res.data);
       })
@@ -20,8 +23,8 @@ function UsersList() {
 
   return (
     <div className="display">
-      {/* {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
-      {showUpdateUser && (
+      {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
+      {/* {showUpdateUser && (
         <ModifyUser
           setShowUpdateUser={setShowUpdateUser}
           currentUser={currentUser}

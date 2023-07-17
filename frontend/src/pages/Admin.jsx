@@ -2,13 +2,11 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import userContext from "../contexts/userContext";
-// import ProductsList from "../components/ProductsListAdmin";
-// import UsersList from "../components/UsersList";
 
 function Admin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser, setToken } = useContext(userContext);
+  const { setUser } = useContext(userContext);
   const navigate = useNavigate();
   const postUserInfos = (e) => {
     e.preventDefault();
@@ -20,11 +18,10 @@ function Admin() {
           email,
           password,
         },
-        { withCredentials: true, credentials: "include" }
+        { withCredentials: true }
       )
       .then((res) => {
         setUser(res.data.user);
-        setToken(document.cookie);
         setTimeout(() => {
           navigate("/admin/loged/panel");
         }, 500);

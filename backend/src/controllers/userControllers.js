@@ -12,6 +12,18 @@ const getAllUsers = (req, res) => {
     });
 };
 
+const getAllRoles = (req, res) => {
+  models.user
+    .findAllRoles()
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 const getOneUser = (req, res) => {
   const { user } = req.body;
   models.user
@@ -71,15 +83,16 @@ const edit = (req, res) => {
 
 const createUser = (req, res) => {
   const user = req.body;
+
   // TODO validations (length, format...)
   models.user
     .insert(user)
     .then(([result]) => {
-      res.location(`/users/${result.insertId}`).sendStatus(201);
+      res.status(201).json(result);
     })
     .catch((err) => {
       console.error(err);
-      res.sendStatus(500).send("error saving the user");
+      res.sendStatus(500);
     });
 };
 
@@ -101,6 +114,7 @@ const deleteOneUser = (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getAllRoles,
   getOneUser,
   edit,
   createUser,

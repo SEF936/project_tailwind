@@ -12,7 +12,9 @@ function ProductsList() {
   // const [currentUser, setCurrentUser] = useState([]);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/products`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/products`, {
+        withCredentials: true,
+      })
       .then((res) => {
         setProducts(res.data);
       })
@@ -24,7 +26,6 @@ function ProductsList() {
     !showUpdateProduct,
     currentProduct,
   ]);
-
   return (
     <div className="display">
       {showAddProduct && <AddProducts setShowAddProduct={setShowAddProduct} />}
@@ -35,13 +36,6 @@ function ProductsList() {
           currentProduct={currentProduct}
         />
       )}
-      {/* {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
-      {showUpdateUser && (
-        <ModifyUser
-          setShowUpdateUser={setShowUpdateUser}
-          currentUser={currentUser}
-        />
-      )} */}
       <button
         type="button"
         className="addBtn"

@@ -20,8 +20,8 @@ class UserManager extends AbstractManager {
       `select firstname,
     lastname,
     email,
-    is_admin,
-    creation_date, id_user from  ${this.table} where id_user = ?`,
+    r.title,
+    creation_date, id_user from  ${this.table} JOIN role r ON role_id = r.id_role where id_user = ?`,
       [id]
     );
   }
@@ -32,8 +32,14 @@ class UserManager extends AbstractManager {
         lastname,
         email,
         password,
-        is_admin, creation_date) values (?, ?, ?, ?, ?, NOW())`,
-      [user.firstname, user.lastname, user.email, user.password, user.is_admin]
+        role_id, creation_date) values (?, ?, ?, ?, ?, NOW())`,
+      [
+        user.firstname,
+        user.lastname,
+        user.email,
+        user.hashedPassword,
+        user.role,
+      ]
     );
   }
 
@@ -46,9 +52,13 @@ class UserManager extends AbstractManager {
 
   selectEmail(email) {
     return this.database.query(
-      `select id_user, firstname, lastname, password, is_admin from ${this.table} where email = ?`,
+      `select id_user, firstname, lastname, password, r.title from ${this.table} JOIN role r ON role_id = r.id_role where email = ?`,
       [email]
     );
+  }
+
+  findAllRoles() {
+    return this.database.query(`select * from role`);
   }
 }
 

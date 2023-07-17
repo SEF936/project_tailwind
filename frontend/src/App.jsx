@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Panel from "./pages/Panel";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import NavLayout from "./layouts/NavLayout";
+import WrongPage from "./pages/WrongPage";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/panier" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/contact" element={<Home />} />
-        {/* <Route path="panel" element={<Panel />} /> */}
+        <Route path="*" element={<WrongPage />} />
 
         {/* private routes  */}
         <Route element={<ProtectedLayout />}>
