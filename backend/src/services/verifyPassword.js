@@ -17,7 +17,7 @@ const verifyPassword = (req, res) => {
     .verify(req.user.password, req.body.password, hashingOptions)
     .then((isVerified) => {
       if (isVerified) {
-        const payload = { sub: req.user.id, role: "admin" };
+        const payload = { sub: req.user.id };
 
         const token = jwt.sign(payload, JWT_SECRET, {
           algorithm: "HS512",

@@ -14,7 +14,7 @@ function AllProducts() {
   }, []);
 
   return (
-    <div className="flex flex-wrap md:container md:mx-auto">
+    <div className="flex flex-wrap gap-1">
       {products.map((product) => {
         return <CardProduct key={product.id} product={product} />;
       })}

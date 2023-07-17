@@ -20,11 +20,6 @@ const uploadFile = require("./services/uploadFile");
 router.get("/products", productControllers.getAllProducts);
 router.get("/products/:id", productControllers.getOneProduct);
 
-router.get("/users", userControllers.getAllUsers);
-router.get("/users/:id", userControllers.getOneUser);
-
-router.post("/api/image", upload.single("photo"), uploadFile.postFile);
-
 router.post(
   "/login",
   loginControllers.getUserByEmailWithPasswordAndPassToNext,
@@ -36,6 +31,11 @@ router.delete("/user/:id", userControllers.deleteOneUser);
 
 // router.use(verifyToken);
 
+router.get("/users", userControllers.getAllUsers);
+router.get("/users/:id", userControllers.getOneUser);
+router.get("/role", userControllers.getAllRoles);
+
+router.post("/api/image", upload.single("photo"), uploadFile.postFile);
 router.post("/products", productControllers.addProducts);
 router.put("/products/:id", productControllers.updateProduct);
 router.delete("/products/:id", productControllers.deleteProduct);
