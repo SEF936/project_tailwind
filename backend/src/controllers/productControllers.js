@@ -30,10 +30,7 @@ const getOneProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
   const { product } = req.body;
-  console.info(product);
   // TODO validations (length, format...)
-
-  product.id = parseInt(req.params.id, 10);
 
   models.product
     .update(product)

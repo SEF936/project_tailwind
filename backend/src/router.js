@@ -36,6 +36,7 @@ router.get("/users/:id", userControllers.getOneUser);
 router.get("/role", userControllers.getAllRoles);
 
 router.post("/api/image", upload.single("photo"), uploadFile.postFile);
+// router.delete("/api/image/:id", uploadFile.deleteFile);
 router.post("/products", productControllers.addProducts);
 router.put("/products/:id", productControllers.updateProduct);
 router.delete("/products/:id", productControllers.deleteProduct);

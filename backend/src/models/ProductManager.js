@@ -8,18 +8,21 @@ class ProductManager extends AbstractManager {
 
   findAllProductsWithCategory() {
     return this.database.query(
-      `select p.id_product, p.name, p.description, p.category_id, p.image, p.color, p.size, p.price, p.promotionalPrice, p.adding_date, c.title from  ${this.table} p JOIN category c ON c.id_category = p.category_id`
+      `select p.id_product, p.name, p.description, p.category_id, p.image, p.image2, p.image3, p.image4, p.color, p.size, p.price, p.promotionalPrice, p.adding_date, c.title from  ${this.table} p JOIN category c ON c.id_category = p.category_id`
     );
   }
 
   insert(product) {
     return this.database.query(
-      `insert into ${this.table} (name, description, category_id, image, color, size, price, promotionalPrice, adding_date) values (?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+      `insert into ${this.table} (name, description, category_id, image, image2, image3, image4, color, size, price, promotionalPrice, adding_date) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
         product.name,
         product.description,
         product.category,
         product.image,
+        product.image2,
+        product.image3,
+        product.image4,
         product.color,
         product.size,
         product.price,
@@ -30,9 +33,9 @@ class ProductManager extends AbstractManager {
 
   update(product) {
     return this.database.query(
-      `update ${this.table} set regular_price = ? where id = ?`,
+      `update ${this.table} set price = ?, promotionalPrice = ?  where id_product = ?`,
 
-      [product.price, product.promotionalPrice, product.id]
+      [product.price, product.promotionalPrice, product.id_product]
     );
   }
 

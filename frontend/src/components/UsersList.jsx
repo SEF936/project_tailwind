@@ -30,13 +30,15 @@ function UsersList() {
           currentUser={currentUser}
         />
       )} */}
-      <button
-        type="button"
-        className="addBtn"
-        onClick={() => setShowAddUser(true)}
-      >
-        Ajouter un utilisateur
-      </button>
+      {!showAddUser && (
+        <button
+          type="button"
+          className="addBtn"
+          onClick={() => setShowAddUser(true)}
+        >
+          Ajouter un utilisateur
+        </button>
+      )}
       <table className="border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto mx-auto">
         <caption className="caption-top">Table des utilisateurs</caption>
         <thead>
