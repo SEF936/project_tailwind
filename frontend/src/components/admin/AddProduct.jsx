@@ -60,7 +60,7 @@ function AddProduct({ setShowAddProduct }) {
         encType="multipart/form-data"
         onSubmit={handleAddProduct}
       >
-        <h1 className="title-product-form">Ajoutez un produit</h1>
+        <h1 className="title-product-form">Ajout d'un produit</h1>
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
           <input
             id="name"
@@ -148,7 +148,6 @@ function AddProduct({ setShowAddProduct }) {
             placeholder="promotionalPrice"
             value={productPromotionalPrice}
             onChange={(e) => setProductPromotionalPrice(e.target.value)}
-            required
           />
         </label>
         <button

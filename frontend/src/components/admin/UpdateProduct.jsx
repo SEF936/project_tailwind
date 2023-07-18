@@ -1,20 +1,13 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { PropTypes } from "prop-types";
 
 function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
-  const inputRef = useRef();
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productCategory, setProductCategory] = useState(0);
-  const [productColor, setProductColor] = useState("");
-  const [productSize, setProductSize] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const [productPromotionalPrice, setProductPromotionalPrice] = useState(0);
 
   const handleUpdateProduct = (e) => {
     e.preventDefault();
-
     axios
       .put(
         `${import.meta.env.VITE_BACKEND_URL}/products/${
@@ -22,26 +15,23 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
         }`,
         {
           product: {
-            name: productName,
-            description: productDescription,
-            category: productCategory,
-            //   image: result.data,
-            color: productColor,
-            size: productSize,
-            price: productPrice,
-            promotionalPrice: productPromotionalPrice || "",
+            price: productPrice !== 0 ? productPrice : currentProduct.price,
+            promotionalPrice:
+              productPromotionalPrice !== 0
+                ? productPromotionalPrice
+                : currentProduct.promotionalPrice,
+            id_product: currentProduct.id_product,
           },
         }
       )
-
       .catch((err) => {
         console.info(err);
       });
     setShowUpdateProduct(false);
   };
 
-  const handleDeleteProduct = () => {
-    // e.preventDefault();
+  const handleDeleteProduct = (e) => {
+    e.preventDefault();
     axios
       .delete(
         `${import.meta.env.VITE_BACKEND_URL}/products/${
@@ -49,12 +39,18 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
         }`,
         currentProduct.id_product
       )
+      .then((res) => {
+        if (res.status === 204) {
+          console.info(res.data);
+        }
+      })
 
       .catch((err) => {
         console.info(err);
       });
     setShowUpdateProduct(false);
   };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
       <div className="w-11/12 md:max-w-3xl h-5/6  flex flex-col bg-white scroll-smooth hover:scroll-auto">
@@ -80,37 +76,32 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
             nom
             <input
               id="name"
+              disabled
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               type="text"
-              placeholder="titre"
+              placeholder={currentProduct.name}
               value={currentProduct.name}
-              onChange={(e) => {
-                setProductName(e.target.value);
-              }}
-              required
             />
           </label>
           <label className="flex flex-col uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             Description
             <textarea
               id="text_Area"
+              disabled
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none"
-              placeholder="Add description"
+              placeholder={currentProduct.description}
               value={currentProduct.description}
-              onChange={(e) => setProductDescription(e.target.value)}
-              required
             />
           </label>
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             Catégorie
             <input
               id="category"
+              disabled
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               type="text"
-              placeholder="category"
-              value={currentProduct.category}
-              onChange={(e) => setProductCategory(e.target.value)}
-              required
+              placeholder={currentProduct.title}
+              value={currentProduct.title}
             />
           </label>
           <div className="md:flex justify-center items-center md:mt-4 md:justify-between mt-2">
@@ -123,7 +114,7 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                 alt="img current product"
               />
 
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 md:flex flex-col">
+              {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 md:flex flex-col">
                 photo
                 <input
                   id="image"
@@ -133,35 +124,29 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                   ref={inputRef}
                   required
                 />
-              </label>
+              </label> */}
             </div>
             <div>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 couleur
                 <input
+                  disabled
                   id="color"
                   className="appearance-none block w-full md:w-24 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
-                  placeholder="color"
+                  placeholder={currentProduct.color}
                   value={currentProduct.color}
-                  onChange={(e) => {
-                    setProductColor(e.target.value);
-                  }}
-                  required
                 />
               </label>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 taille
                 <input
                   id="size"
+                  disabled
                   className="appearance-none block w-full md:w-24  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
-                  placeholder="size"
+                  placeholder={currentProduct.size}
                   value={currentProduct.size}
-                  onChange={(e) => {
-                    setProductSize(e.target.value);
-                  }}
-                  required
                 />
               </label>
             </div>
@@ -172,10 +157,10 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                   id="price"
                   className="appearance-none block w-full md:w-24  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
-                  placeholder="price"
-                  value={currentProduct.price}
-                  onChange={(e) => setProductPrice(e.target.value)}
-                  required
+                  placeholder={currentProduct.price}
+                  onChange={(e) =>
+                    setProductPrice(parseInt(e.target.value, 10))
+                  }
                 />
               </label>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -184,10 +169,10 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                   id="promotionalPrice"
                   className="appearance-none block w-full md:w-24  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
-                  placeholder="promotionalPrice"
-                  value={currentProduct.promotionalPrice}
-                  onChange={(e) => setProductPromotionalPrice(e.target.value)}
-                  required
+                  placeholder={currentProduct.promotionalPrice}
+                  onChange={(e) =>
+                    setProductPromotionalPrice(parseInt(e.target.value, 10))
+                  }
                 />
               </label>
             </div>
@@ -204,7 +189,7 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
               className="w-32 h-6 md:w-48 h-8 rounded-md text-gray-700 text-xs font-bold bg-red-400"
               id="button_delete_product"
               type="button"
-              onClick={() => handleDeleteProduct()}
+              onClick={handleDeleteProduct}
             >
               Supprimer
             </button>

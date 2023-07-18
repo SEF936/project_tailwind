@@ -28,7 +28,12 @@ function ProductsList() {
   ]);
   return (
     <div className="display">
-      {showAddProduct && <AddProducts setShowAddProduct={setShowAddProduct} />}
+      {showAddProduct && (
+        <AddProducts
+          setShowAddProduct={setShowAddProduct}
+          showAddProduct={showAddProduct}
+        />
+      )}
       {showUpdateProduct && (
         <UpdateProduct
           setShowUpdateProduct={setShowUpdateProduct}
@@ -36,13 +41,15 @@ function ProductsList() {
           currentProduct={currentProduct}
         />
       )}
-      <button
-        type="button"
-        className="addBtn"
-        onClick={() => setShowAddProduct(true)}
-      >
-        Ajouter un produit
-      </button>
+      {!showAddProduct && (
+        <button
+          type="button"
+          className="addBtn"
+          onClick={() => setShowAddProduct(true)}
+        >
+          Ajouter un produit
+        </button>
+      )}
       <table className="w-11/12 mx-auto border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto">
         <caption className="caption-top">Table des produits</caption>
         <thead>
