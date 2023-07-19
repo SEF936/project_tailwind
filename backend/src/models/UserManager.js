@@ -11,6 +11,7 @@ class UserManager extends AbstractManager {
       lastname,
       email,
       r.title,
+      role_id,
       creation_date, id_user from  ${this.table} JOIN role r ON role_id = r.id_role`
     );
   }
@@ -43,10 +44,10 @@ class UserManager extends AbstractManager {
     );
   }
 
-  update(user) {
+  updateUser(user) {
     return this.database.query(
-      `update ${this.table} set email = ? email = ? where id = ?`,
-      [user.email, user.hashPassword]
+      `update ${this.table} set email = ?, firstname = ?, lastname = ?, role_id where id = ?`,
+      [user.email, user.firstname, user.lastname, user.role]
     );
   }
 

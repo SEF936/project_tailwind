@@ -12,6 +12,29 @@ const getAllProducts = (req, res) => {
     });
 };
 
+const getAllCategories = (req, res) => {
+  models.product
+    .findAllCategories()
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
+const getAllSizes = (req, res) => {
+  models.product
+    .findAllSizes()
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 const getOneProduct = (req, res) => {
   models.product
     .find(req.params.id)
@@ -84,7 +107,7 @@ module.exports = {
   getOneProduct,
   updateProduct,
   addProducts,
-  // uploadFile,
-  // handleFile,
+  getAllCategories,
+  getAllSizes,
   deleteProduct,
 };

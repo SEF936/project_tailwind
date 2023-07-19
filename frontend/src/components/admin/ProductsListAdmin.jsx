@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import AddProducts from "./AddProduct";
 import oeil from "../../assets/view.png";
 import UpdateProduct from "./UpdateProduct";
@@ -9,7 +11,8 @@ function ProductsList() {
   const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
-  // const [currentUser, setCurrentUser] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/products`, {
@@ -23,15 +26,29 @@ function ProductsList() {
     showAddProduct,
     setShowAddProduct,
     setShowUpdateProduct,
-    !showUpdateProduct,
+    showUpdateProduct,
     currentProduct,
   ]);
+  const handleClose = () => {
+    setShowAlert(false);
+  };
+
+  // Automatically close the alert after 3000 milliseconds (3 seconds)
+  setTimeout(handleClose, 3000);
   return (
     <div className="display">
+      {showAlert && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Produit ajouté
+          </Alert>
+        </Stack>
+      )}
       {showAddProduct && (
         <AddProducts
           setShowAddProduct={setShowAddProduct}
           showAddProduct={showAddProduct}
+          setShowAlert={setShowAlert}
         />
       )}
       {showUpdateProduct && (
@@ -50,7 +67,7 @@ function ProductsList() {
           Ajouter un produit
         </button>
       )}
-      <table className="w-11/12 mx-auto border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto">
+      <table className="w-11/12 mx-auto border-spacing-2 border border-collapse border-slate-500 hover:border-collapse table-auto md:w-auto">
         <caption className="caption-top">Table des produits</caption>
         <thead>
           <tr>

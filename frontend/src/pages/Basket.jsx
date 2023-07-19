@@ -30,6 +30,7 @@ function Basket({ setCarts, carts, handleAddItem }) {
 
   return (
     <div className="w-full h-screen">
+      <h1 className="text-center text-4xl m-4">Panier</h1>
       <article className="flex flex-col gap-8 w-full h-full jusify-between px-8 ">
         {carts.map((cart) => (
           <div

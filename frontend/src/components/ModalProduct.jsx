@@ -8,7 +8,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
       id="overlay"
       className="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center"
     >
-      <div className="h-3/4 w-full m-4 lg:m-44 md:h-2/5 bg-white md:flex flex-col md:my-auto">
+      <div className="h-auto overflow-scroll w-full m-4 lg:m-36 bg-white md:flex flex-col md:my-auto">
         <div className="flex justify-end w-full">
           <button
             className="text-black text-xl place-self-end mr-2"
@@ -30,7 +30,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
                 className="w-48 h-68  md:w-38 md:h-50"
               />
             </div>
-            <div className="flex justify-center md:flex-col md:justify-between gap-1">
+            <div className="flex justify-center md:flex-col md:justify-around">
               {currentProduct.image2 && (
                 <div>
                   <button
@@ -43,7 +43,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
                         currentProduct.image2
                       }`}
                       alt="product"
-                      className="w-16 h-18 md:w-14 md:h-20"
+                      className="w-16 h-18 md:w-16 md:h-24"
                     />
                   </button>
                 </div>
@@ -60,7 +60,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
                         currentProduct.image4
                       }`}
                       alt="product"
-                      className="w-16 h-18 md:w-14 md:h-20"
+                      className="w-16 h-18 md:w-16 md:h-24"
                     />
                   </button>
                 </div>
@@ -77,7 +77,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
                         currentProduct.image
                       }`}
                       alt="product"
-                      className="w-16 h-18 md:w-14 md:h-20"
+                      className="w-16 h-18 md:w-16 md:h-24"
                     />
                   </button>
                 </div>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import AddUser from "./AddUser";
 import oeil from "../assets/view.png";
 import AddUser from "./admin/AddUser";
-// import ModifyUser from "../GlobalComponents/ModifyUser";
+import UpdateUser from "./admin/UpdateUser";
 
 function UsersList() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [showUpdateUser, setShowUpdateUser] = useState(false);
   const [users, setUsers] = useState([]);
-  // const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/users`, {
@@ -19,17 +18,16 @@ function UsersList() {
         setUsers(res.data);
       })
       .catch((err) => console.error(err));
-  }, [showAddUser, setShowAddUser, showUpdateUser]);
-
+  }, [showAddUser, setShowAddUser, showUpdateUser, setShowUpdateUser]);
   return (
     <div className="display">
       {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
-      {/* {showUpdateUser && (
-        <ModifyUser
+      {showUpdateUser && (
+        <UpdateUser
           setShowUpdateUser={setShowUpdateUser}
           currentUser={currentUser}
         />
-      )} */}
+      )}
       {!showAddUser && (
         <button
           type="button"
@@ -84,9 +82,8 @@ function UsersList() {
                     type="button"
                     className="viewBtn"
                     onClick={() => {
-                      // eslint-disable-next-line no-sequences
-                      return setShowUpdateUser(true);
-                      // , setCurrentUser(user);
+                      setShowUpdateUser(true);
+                      setCurrentUser(user);
                     }}
                   >
                     <img src={oeil} alt="" />

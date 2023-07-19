@@ -59,7 +59,7 @@ const findByToken = (req, res) => {
     });
 };
 
-const edit = (req, res) => {
+const updateOneUser = (req, res) => {
   const user = req.body;
 
   // TODO validations (length, format...)
@@ -67,7 +67,7 @@ const edit = (req, res) => {
   user.id = parseInt(req.params.id, 10);
 
   models.user
-    .update(user)
+    .updateUser(user)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -116,7 +116,7 @@ module.exports = {
   getAllUsers,
   getAllRoles,
   getOneUser,
-  edit,
+  updateOneUser,
   createUser,
   deleteOneUser,
   findByToken,

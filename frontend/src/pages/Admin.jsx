@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import userContext from "../contexts/userContext";
 
 function Admin() {
@@ -8,6 +10,7 @@ function Admin() {
   const [password, setPassword] = useState("");
   const { setUser } = useContext(userContext);
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
   const postUserInfos = (e) => {
     e.preventDefault();
 
@@ -27,9 +30,15 @@ function Admin() {
         }, 500);
       })
       .catch((err) => console.error(err));
+    setShowAlert(true);
   };
   return (
     <div className="w-full h-full">
+      {showAlert && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="error">Email ou mot de passe incorrect</Alert>
+        </Stack>
+      )}
       <form onSubmit={postUserInfos}>
         <div className="w-80 mx-auto h-80 py-8 items-center md:w-96 md:mx-auto flex-col bg-">
           <div className="flex flex-col w-64 mx-auto ">

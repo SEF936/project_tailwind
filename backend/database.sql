@@ -5,6 +5,7 @@ CREATE TABLE `role` (
   `id_role` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id_user` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -16,11 +17,20 @@ CREATE TABLE `user` (
   `role_id` INT NOT NULL,
   CONSTRAINT role_user FOREIGN KEY (`role_id`) REFERENCES `role`(`id_role`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id_category` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+DROP TABLE IF EXISTS `size`;
+CREATE TABLE `size` (
+  `id_size` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id_product` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -32,11 +42,12 @@ CREATE TABLE `product` (
   `image3` VARCHAR(254) NULL,
   `image4` VARCHAR(254) NULL,
   `color` VARCHAR(80) NULL,
-  `size` VARCHAR(80) NULL,
+  `size_id` INT NULL,
   `price` FLOAT NOT NULL,
   `promotionalPrice` FLOAT NULL,
   `adding_date` DATE NOT NULL,
-  CONSTRAINT category_product FOREIGN KEY (`category_id`) REFERENCES `category`(`id_category`) ON DELETE CASCADE
+  CONSTRAINT category_product FOREIGN KEY (`category_id`) REFERENCES `category`(`id_category`) ON DELETE CASCADE,
+    CONSTRAINT size_product FOREIGN KEY (`size_id`) REFERENCES `size`(`id_size`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ___________________________________ POPULATE TABLES ___________________________________ 
 INSERT INTO `role` (`title`)
@@ -74,6 +85,11 @@ VALUES (
 INSERT INTO `category` (`title`)
 VALUES ("jupes"),
   ("robes longues");
+
+  INSERT INTO `size` (`title`)
+VALUES ("S"),
+  ("M"),("L"),("XL"),("XXL");
+
 -- Create product
 INSERT INTO `product` (
     `name`,
@@ -84,7 +100,7 @@ INSERT INTO `product` (
     `image3`,
     `image4`,
     `color`,
-    `size`,
+    `size_id`,
     `price`,
     `promotionalPrice`,
     `adding_date`
@@ -93,69 +109,83 @@ VALUES (
     'Robe à imprimé floral à nœud découpe',
     'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
     2,
-    "cb923212-bfd2-4be3-9c42-f31ab10dfeb8-robe1_1.webp",
-    "d760f086-3fe7-4c0d-b7db-a36b3ad7d38d-2.webp",
-    "1acbaf0e-caa5-4687-99a1-6bcd79515e53-2.webp",
-    "a4db27f7-fbe8-4edc-b0c1-c51dc52600e4-3.webp",
+    "robe1_1.webp",
+    "robe1_2.webp",
+    "robe1_3.webp",
+    "robe1_4.webp",
     "blue",
-    "L",
+    1,
     34.99,
     52.99,
     "2023-04-03"
   ),
   (
-    'Jupe à imprimé floral à nœud découpe',
+    'Robe portefeuille à volants fleuri',
     'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
     1,
-    "266fcf92-173e-48ed-bb43-dbaa15e66631-robe2_1.webp",
-       "d760f086-3fe7-4c0d-b7db-a36b3ad7d38d-2.webp",
-    "1acbaf0e-caa5-4687-99a1-6bcd79515e53-2.webp",
-    "a4db27f7-fbe8-4edc-b0c1-c51dc52600e4-3.webp",
+      "robe2_1.webp",
+    "robe2_2.webp",
+    "robe2_3.webp",
+    "robe2_4.webp",
     "blue",
-    "XL",
+    4,
     64.99,
     84.99,
     "2023-05-03"
   ),
   (
-    'Robe à imprimé floral à nœud découpe',
+    'Robe fendue à fines brides avec boutons',
     'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
     2,
-    "52863985-a530-4b32-ae42-60f99629c83b-robe9_3.webp",
-       "d760f086-3fe7-4c0d-b7db-a36b3ad7d38d-2.webp",
-    "1acbaf0e-caa5-4687-99a1-6bcd79515e53-2.webp",
-    "a4db27f7-fbe8-4edc-b0c1-c51dc52600e4-3.webp",
+   "robe3_1.webp",
+    "robe3_2.webp",
+    "robe3_3.webp",
+    "robe3_4.webp",
     "blue",
-    "L",
+    3,
     54.99,
     72.99,
     "2023-06-03"
   ),
   (
-    'Jupe à imprimé floral à nœud découpe',
+    'Robe avec tulle à col carré évasé',
     'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
     1,
-    "1d57e86f-5bce-4a84-97bb-2825521ecd5c-robe4_1.webp",
-       "d760f086-3fe7-4c0d-b7db-a36b3ad7d38d-2.webp",
-    "1acbaf0e-caa5-4687-99a1-6bcd79515e53-2.webp",
-    "a4db27f7-fbe8-4edc-b0c1-c51dc52600e4-3.webp",
+   "robe4_1.webp",
+    "robe4_2.webp",
+    "robe4_3.webp",
+    "robe5_4.webp",
     "blue",
-    "S",
+    1,
     84.99,
     114.99,
     "2023-01-03"
   ),
     (
-    'Jupe à imprimé floral à nœud découpe',
+    'Robe de bal ceinturée en mousseline avec manches papillon',
     'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
     1,
-    "1d57e86f-5bce-4a84-97bb-2825521ecd5c-robe4_1.webp",
-       "d760f086-3fe7-4c0d-b7db-a36b3ad7d38d-2.webp",
-    "1acbaf0e-caa5-4687-99a1-6bcd79515e53-2.webp",
-    "a4db27f7-fbe8-4edc-b0c1-c51dc52600e4-3.webp",
+   "robe5_1.webp",
+    "robe5_2.webp",
+    "robe5_3.webp",
+    "robe5_4.webp",
     "blue",
-    "S",
+    1,
     84.99,
     114.99,
+    "2023-01-03"
+  ),
+      (
+    'Robe manches dolman plissé',
+    'superbe robe quyi va voud jhsp^mfiofh oiehf oihenf oihe foçe  pçzeçà FP09je f àig',
+    1,
+   "robe6_1.webp",
+    "robe6_2.webp",
+    "robe6_3.webp",
+    "robe6_4.webp",
+    "blue",
+    1,
+    79.99,
+    104.99,
     "2023-01-03"
   );

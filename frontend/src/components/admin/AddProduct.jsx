@@ -1,16 +1,35 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
 
-function AddProduct({ setShowAddProduct }) {
+function AddProduct({ setShowAddProduct, setShowAlert }) {
   const inputRef = useRef();
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [sizesDatas, setSizesData] = useState([]);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productCategory, setProductCategory] = useState(0);
   const [productColor, setProductColor] = useState("");
-  const [productSize, setProductSize] = useState("");
+  const [productSize, setProductSize] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
   const [productPromotionalPrice, setProductPromotionalPrice] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/category`, {
+        withCredentials: true,
+      })
+      .then((response) => setCategoriesData(response.data))
+      .catch((err) => console.error(err));
+  }, []);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/size`, {
+        withCredentials: true,
+      })
+      .then((response) => setSizesData(response.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -33,7 +52,7 @@ function AddProduct({ setShowAddProduct }) {
                 color: productColor,
                 size: productSize,
                 price: productPrice,
-                promotionalPrice: productCategory || "",
+                promotionalPrice: productCategory,
               },
             })
 
@@ -43,6 +62,7 @@ function AddProduct({ setShowAddProduct }) {
         }
       });
     setShowAddProduct(false);
+    setShowAlert(true);
   };
   return (
     <div className="sm:container mx-auto px-8">
@@ -82,16 +102,25 @@ function AddProduct({ setShowAddProduct }) {
           onChange={(e) => setProductDescription(e.target.value)}
           required
         />
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-          <input
-            id="category"
+        <label
+          htmlFor="category"
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Categorie
+          <br />
+          <select
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            type="text"
-            placeholder="category"
-            value={productCategory}
+            name="category"
+            defaultValue="categorie"
             onChange={(e) => setProductCategory(e.target.value)}
-            required
-          />
+          >
+            <option value="--">Choisissez une catégorie</option>
+            {categoriesData.map((c) => (
+              <option key={c.id_category} value={c.id_category}>
+                {c.title}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
           <input
@@ -116,18 +145,25 @@ function AddProduct({ setShowAddProduct }) {
             required
           />
         </label>
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-          <input
-            id="size"
+        <label
+          htmlFor="size"
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        >
+          Taille
+          <br />
+          <select
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            type="text"
-            placeholder="size"
-            value={productSize}
-            onChange={(e) => {
-              setProductSize(e.target.value);
-            }}
-            required
-          />
+            name="size"
+            defaultValue="categorie"
+            onChange={(e) => setProductSize(e.target.value)}
+          >
+            <option value="--">Choisissez une taille</option>
+            {sizesDatas.map((s) => (
+              <option key={s.id_size} value={s.id_size}>
+                {s.title}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
           <input
@@ -163,6 +199,7 @@ function AddProduct({ setShowAddProduct }) {
 }
 AddProduct.propTypes = {
   setShowAddProduct: PropTypes.func.isRequired,
+  setShowAlert: PropTypes.func.isRequired,
 };
 
 export default AddProduct;

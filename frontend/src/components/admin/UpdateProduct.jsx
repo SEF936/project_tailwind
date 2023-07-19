@@ -53,7 +53,7 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-      <div className="w-11/12 md:max-w-3xl h-5/6  flex flex-col bg-white scroll-smooth hover:scroll-auto">
+      <div className="w-11/12 overflow-scroll md:max-w-3xl h-5/6 flex flex-col bg-white scroll-smooth hover:scroll-auto">
         <button
           className="text-black text-xl place-self-end mr-2"
           type="button"
@@ -199,125 +199,6 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
     </div>
   );
 }
-
-/* <div className="sm:container mx-auto px-8">
-<form
-  className="flex flex-col mx-3 my-auto"
-  id="my_Form"
-  method="post"
-  encType="multipart/form-data"
-  onSubmit={handleUpdateProduct}
->
-  <h1 className="title-product-form">Modifier un produit</h1>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="name"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="titre"
-      value={currentProduct.name}
-      onChange={(e) => {
-        setProductName(e.target.value);
-      }}
-      required
-    />
-  </label>
-  <textarea
-    id="text_Area"
-    className="textaera"
-    placeholder="Add description"
-    value={currentProduct.description}
-    onChange={(e) => setProductDescription(e.target.value)}
-    required
-  />
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="category"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="category"
-      value={currentProduct.category}
-      onChange={(e) => setProductCategory(e.target.value)}
-      required
-    />
-  </label>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="image"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="file"
-      name="photo"
-      ref={inputRef}
-      required
-    />
-  </label>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="color"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="color"
-      value={currentProduct.color}
-      onChange={(e) => {
-        setProductColor(e.target.value);
-      }}
-      required
-    />
-  </label>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="size"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="size"
-      value={currentProduct.size}
-      onChange={(e) => {
-        setProductSize(e.target.value);
-      }}
-      required
-    />
-  </label>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="price"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="price"
-      value={currentProduct.price}
-      onChange={(e) => setProductPrice(e.target.value)}
-      required
-    />
-  </label>
-  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-    <input
-      id="promotionalPrice"
-      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      type="text"
-      placeholder="promotionalPrice"
-      value={currentProduct.promotionalPrice}
-      onChange={(e) => setProductPromotionalPrice(e.target.value)}
-      required
-    />
-  </label>
-  <div className="flex mx-auto py-4">
-    <button
-      className="button-add-product"
-      id="button_update_product"
-      type="submit"
-    >
-      Ajouter
-    </button>
-    <button
-      className="button-delete-product"
-      id="button_delete_product"
-      type="button"
-      onClick={() => handleDeleteProduct()}
-    >
-      Supprimer
-    </button>
-  </div>
-</form>
-</div> */
 
 UpdateProduct.propTypes = {
   setShowUpdateProduct: PropTypes.func.isRequired,

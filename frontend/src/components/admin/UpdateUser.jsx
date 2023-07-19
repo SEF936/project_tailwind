@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import inputValidationRules from "../../services/inputValidationRules";
 
-export default function AddUser({ setShowAddUser }) {
-  // const [newUploadedFileName, setNewUploadedFileName] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState(parseInt("", 10));
+export default function UpdateUser({ setShowUpdateUser, currentUser }) {
+  const [firstname, setFirstname] = useState(" ");
+  const [lastname, setLastname] = useState(" ");
+  const [email, setEmail] = useState(" ");
+  const [role, setRole] = useState(0);
 
   const [rolesData, setRolesData] = useState([]);
 
@@ -22,26 +20,49 @@ export default function AddUser({ setShowAddUser }) {
       .catch((err) => console.error(err));
   }, []);
 
-  const submit = (event) => {
+  const handleUpdateUser = (event) => {
     event.preventDefault();
 
     const isValidForm = Object.values(
-      inputValidationRules(firstname, lastname, email, password, role)
+      inputValidationRules(firstname, lastname, email)
     ).every((key) => key);
 
     if (isValidForm) {
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, {
-          firstname,
-          lastname,
-          email,
-          password,
-          role,
-        })
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${currentUser.id_user}`,
+          {
+            user: {
+              firstname: firstname !== " " ? firstname : currentUser.firstname,
+              lastname: lastname !== " " ? lastname : currentUser.lastname,
+              email: email !== " " ? email : currentUser.email,
+              role: role !== 0 ? role : currentUser.id_role,
+            },
+          }
+        )
         .catch((err) => {
           console.info(err);
         });
-    } else console.info("une erreur");
+      setShowUpdateUser(false);
+    } else console.info("une erreur est survenue");
+  };
+  const handleDeleteUser = (e) => {
+    e.preventDefault();
+    axios
+      .delete(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${currentUser.id_user}`,
+        currentUser.id_user
+      )
+      .then((res) => {
+        if (res.status === 204) {
+          console.info(res.data);
+        }
+      })
+
+      .catch((err) => {
+        console.info(err);
+      });
+    setShowUpdateUser(false);
   };
 
   return (
@@ -49,13 +70,13 @@ export default function AddUser({ setShowAddUser }) {
       <button
         className="text-black text-xl place-self-end mr-2"
         type="button"
-        onClick={() => setShowAddUser(false)}
+        onClick={() => setShowUpdateUser(false)}
       >
         X
       </button>
-      <form className="flex flex-col mx-3 my-auto" onSubmit={submit}>
+      <form className="flex flex-col mx-3 my-auto" onSubmit={handleUpdateUser}>
         <div className="add-user-title-container">
-          <h2 className="add-user-title">Ajout d'un utilisateur</h2>
+          <h2 className="add-user-title">Modification d'un utilisateur</h2>
         </div>
         <div className="user-management-container">
           <div className="input-container">
@@ -70,9 +91,8 @@ export default function AddUser({ setShowAddUser }) {
                     type="text"
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="lastname"
-                    placeholder="Insérez votre nom"
+                    placeholder={currentUser.lastname}
                     onChange={(e) => setLastname(e.target.value)}
-                    required
                   />
                 </label>
                 <label
@@ -84,9 +104,8 @@ export default function AddUser({ setShowAddUser }) {
                     type="text"
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="firstname"
-                    placeholder="Insérez votre prénom"
+                    placeholder={currentUser.firstname}
                     onChange={(e) => setFirstname(e.target.value)}
-                    required
                   />
                 </label>
               </div>
@@ -99,26 +118,13 @@ export default function AddUser({ setShowAddUser }) {
                   type="email"
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="email"
-                  placeholder="Insérez votre email"
+                  placeholder={currentUser.email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
               </label>
-              <label
-                htmlFor="password"
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              >
-                Mot de passe <br />
-                <input
-                  type="password"
-                  name="password"
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  placeholder="Insérez votre pmot de passe"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength="8"
-                />
-              </label>
+              <div className="mb-2">
+                <p>rôle actuel: {currentUser.title}</p>
+              </div>
               <label
                 htmlFor="role"
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -129,7 +135,7 @@ export default function AddUser({ setShowAddUser }) {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="role"
                   defaultValue="rôle"
-                  onClick={(e) => setRole(e.target.value)}
+                  onClick={(e) => setRole(parseInt(e.target.value, 10))}
                 >
                   <option value="--">--</option>
                   {rolesData.map((r) => (
@@ -143,14 +149,29 @@ export default function AddUser({ setShowAddUser }) {
           </div>
         </div>
 
-        <div className="flex w-full justify-center">
-          <button type="submit">Valider</button>
+        <div className="flex justify-around md:justify-center space-x-3 py-4">
+          <button
+            className="w-32 h-6 md:w-48 h-8 rounded-md text-gray-700 text-xs font-bold bg-green-400"
+            id="button_update_product"
+            type="submit"
+          >
+            Valider
+          </button>
+          <button
+            className="w-32 h-6 md:w-48 h-8 rounded-md text-gray-700 text-xs font-bold bg-red-400"
+            id="button_delete_product"
+            type="button"
+            onClick={handleDeleteUser}
+          >
+            Supprimer
+          </button>
         </div>
       </form>
     </div>
   );
 }
 
-AddUser.propTypes = {
-  setShowAddUser: PropTypes.func.isRequired,
+UpdateUser.propTypes = {
+  setShowUpdateUser: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape().isRequired,
 };
