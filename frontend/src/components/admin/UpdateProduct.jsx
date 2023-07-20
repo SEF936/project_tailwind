@@ -2,7 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import { PropTypes } from "prop-types";
 
-function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
+function UpdateProduct({
+  setShowUpdateProduct,
+  setShowAlertUpdateProduct,
+  setShowAlertDeleteProduct,
+  currentProduct,
+}) {
   const [productPrice, setProductPrice] = useState(0);
   const [productPromotionalPrice, setProductPromotionalPrice] = useState(0);
 
@@ -24,6 +29,11 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
           },
         }
       )
+      .then((res) => {
+        if (res.status === 204) {
+          setShowAlertUpdateProduct(true);
+        }
+      })
       .catch((err) => {
         console.info(err);
       });
@@ -41,7 +51,7 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
       )
       .then((res) => {
         if (res.status === 204) {
-          console.info(res.data);
+          setShowAlertDeleteProduct(true);
         }
       })
 
@@ -63,7 +73,7 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
         </button>
 
         <form
-          className="flex flex-col w-full p-4 my-auto"
+          className="flex flex-col w-full p-4 h-auto my-auto"
           id="my_Form"
           method="post"
           encType="multipart/form-data"
@@ -113,18 +123,6 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                 }`}
                 alt="img current product"
               />
-
-              {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 md:flex flex-col">
-                photo
-                <input
-                  id="image"
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="file"
-                  name="photo"
-                  ref={inputRef}
-                  required
-                />
-              </label> */}
             </div>
             <div>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -151,8 +149,11 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
               </label>
             </div>
             <div>
+              <div className="mb-2">
+                <p>Prix actuel: {currentProduct.price}</p>
+              </div>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                prix
+                Nouveau prix
                 <input
                   id="price"
                   className="appearance-none block w-full md:w-24  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -163,13 +164,18 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
                   }
                 />
               </label>
+              <div className="mb-2">
+                <p>
+                  Prix promo actuel: {currentProduct.productPromotionalPrice}
+                </p>
+              </div>
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                prix promo
+                Nouveau prix promo
                 <input
                   id="promotionalPrice"
                   className="appearance-none block w-full md:w-24  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mt-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="text"
-                  placeholder={currentProduct.promotionalPrice}
+                  placeholder="saisir le nouveau prix"
                   onChange={(e) =>
                     setProductPromotionalPrice(parseInt(e.target.value, 10))
                   }
@@ -202,6 +208,8 @@ function UpdateProduct({ setShowUpdateProduct, currentProduct }) {
 
 UpdateProduct.propTypes = {
   setShowUpdateProduct: PropTypes.func.isRequired,
+  setShowAlertUpdateProduct: PropTypes.func.isRequired,
+  setShowAlertDeleteProduct: PropTypes.func.isRequired,
   currentProduct: PropTypes.shape().isRequired,
 };
 

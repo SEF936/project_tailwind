@@ -29,8 +29,10 @@ function Admin() {
           navigate("/admin/loged/panel");
         }, 500);
       })
-      .catch((err) => console.error(err));
-    setShowAlert(true);
+      .catch((err) => {
+        console.error(err);
+        setShowAlert(!showAlert);
+      });
   };
   return (
     <div className="w-full h-full">

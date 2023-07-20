@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
 
-function AddProduct({ setShowAddProduct, setShowAlert }) {
+function AddProduct({ setShowAddProduct, setShowAlertAddProduct }) {
   const inputRef = useRef();
   const [categoriesData, setCategoriesData] = useState([]);
   const [sizesDatas, setSizesData] = useState([]);
@@ -55,14 +55,18 @@ function AddProduct({ setShowAddProduct, setShowAlert }) {
                 promotionalPrice: productCategory,
               },
             })
+            .then((res) => {
+              if (res.status === 201) {
+                setShowAddProduct(false);
+                setShowAlertAddProduct(true);
+              }
+            })
 
             .catch((err) => {
               console.info(err);
             });
         }
       });
-    setShowAddProduct(false);
-    setShowAlert(true);
   };
   return (
     <div className="sm:container mx-auto px-8">
@@ -199,7 +203,7 @@ function AddProduct({ setShowAddProduct, setShowAlert }) {
 }
 AddProduct.propTypes = {
   setShowAddProduct: PropTypes.func.isRequired,
-  setShowAlert: PropTypes.func.isRequired,
+  setShowAlertAddProduct: PropTypes.func.isRequired,
 };
 
 export default AddProduct;

@@ -12,6 +12,8 @@ import Basket from "./pages/Basket";
 
 function App() {
   const [carts, setCarts] = useState([]);
+  const [showAlertProductAddToCart, setShowAlertProductAddToCart] =
+    useState(false);
 
   const handleAddItem = (clickedItem) => {
     setCarts((prev) => {
@@ -27,6 +29,7 @@ function App() {
       }
       return [...prev, { ...clickedItem, quantity: 1 }];
     });
+    setShowAlertProductAddToCart(true);
   };
   return (
     <BrowserRouter>
@@ -34,7 +37,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<AllProducts handleAddItem={handleAddItem} />}
+          element={
+            <AllProducts
+              handleAddItem={handleAddItem}
+              setShowAlertProductAddToCart={setShowAlertProductAddToCart}
+              showAlertProductAddToCart={showAlertProductAddToCart}
+            />
+          }
         />
         <Route
           path="/panier"

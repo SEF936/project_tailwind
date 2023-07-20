@@ -46,9 +46,15 @@ class UserManager extends AbstractManager {
 
   updateUser(user) {
     return this.database.query(
-      `update ${this.table} set email = ?, firstname = ?, lastname = ?, role_id where id = ?`,
-      [user.email, user.firstname, user.lastname, user.role]
+      `update ${this.table} set email = ?, firstname = ?, lastname = ?, role_id = ? where id_user = ?`,
+      [user.email, user.firstname, user.lastname, user.role, user.id_user]
     );
+  }
+
+  deleteUserById(id) {
+    return this.database.query(`delete from ${this.table} where id_user = ?`, [
+      id,
+    ]);
   }
 
   selectEmail(email) {

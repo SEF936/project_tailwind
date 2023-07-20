@@ -60,11 +60,8 @@ const findByToken = (req, res) => {
 };
 
 const updateOneUser = (req, res) => {
-  const user = req.body;
-
+  const { user } = req.body;
   // TODO validations (length, format...)
-
-  user.id = parseInt(req.params.id, 10);
 
   models.user
     .updateUser(user)
@@ -96,9 +93,9 @@ const createUser = (req, res) => {
     });
 };
 
-const deleteOneUser = (req, res) => {
+const deleteUser = (req, res) => {
   models.user
-    .delete(req.params.id)
+    .deleteUserById(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -118,6 +115,6 @@ module.exports = {
   getOneUser,
   updateOneUser,
   createUser,
-  deleteOneUser,
+  deleteUser,
   findByToken,
 };

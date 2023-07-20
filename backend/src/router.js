@@ -29,14 +29,13 @@ router.post(
 );
 
 router.post("/register", verifyEmail, hashPassword, userControllers.createUser);
-router.delete("/user/:id", userControllers.deleteOneUser);
 
 // router.use(verifyToken);
 
 router.get("/users", userControllers.getAllUsers);
 router.get("/users/:id", userControllers.getOneUser);
-router.put("users/:id", userControllers.updateOneUser);
-router.delete("users/:id", userControllers.deleteOneUser);
+router.put("/users/:id", userControllers.updateOneUser);
+router.delete("/users/:id", userControllers.deleteUser);
 
 router.get("/role", userControllers.getAllRoles);
 
