@@ -3,26 +3,25 @@ import { PropTypes } from "prop-types";
 function CardProduct({ product, setOpenModal, setCurrentProduct }) {
   return (
     <button
-      className="mx-auto mt-11 w-80 h-3/5 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+      className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
       type="button"
       onClick={() => {
         setOpenModal(true);
         setCurrentProduct(product);
       }}
     >
-      <div>
+      <div className="h-120">
         <img
           className="h-96 w-full object-cover object-center"
           src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${product.image}`}
           alt="Product"
         />
         <div className="p-4">
-          <h2 className="mb-2 text-2xl font-medium text-black">
+          <h2 className="mb-2 text-xl font-medium text-black">
             {product.name}
           </h2>
-          <p className="mb-2 text-base text-black">{product.description}</p>
           <div className="flex justify-center mx-auto">
-            <p className="mr-2 text-2xl font-semibold text-black">
+            <p className="mr-2 text-3xl font-semibold text-black">
               {product.price} €
             </p>
             {product.promotionalPrice && (

@@ -11,7 +11,9 @@ function ProductsList() {
   const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertAddProduct, setShowAlertAddProduct] = useState(false);
+  const [showAlertUpdateProduct, setShowAlertUpdateProduct] = useState(false);
+  const [showAlertDeleteProduct, setShowAlertDeleteProduct] = useState(false);
 
   useEffect(() => {
     axios
@@ -22,25 +24,35 @@ function ProductsList() {
         setProducts(res.data);
       })
       .catch((err) => console.error(err));
-  }, [
-    showAddProduct,
-    setShowAddProduct,
-    setShowUpdateProduct,
-    showUpdateProduct,
-    currentProduct,
-  ]);
+  }, [showAlertAddProduct, showAlertUpdateProduct, showAlertDeleteProduct]);
   const handleClose = () => {
-    setShowAlert(false);
+    setShowAlertAddProduct(false);
+    setShowAlertUpdateProduct(false);
+    setShowAlertDeleteProduct(false);
   };
 
   // Automatically close the alert after 3000 milliseconds (3 seconds)
   setTimeout(handleClose, 3000);
   return (
     <div className="display">
-      {showAlert && (
+      {showAlertAddProduct && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity="success" onClose={handleClose}>
             Produit ajouté
+          </Alert>
+        </Stack>
+      )}
+      {showAlertUpdateProduct && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Produit modifié
+          </Alert>
+        </Stack>
+      )}
+      {showAlertDeleteProduct && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Produit supprimé
           </Alert>
         </Stack>
       )}
@@ -48,13 +60,15 @@ function ProductsList() {
         <AddProducts
           setShowAddProduct={setShowAddProduct}
           showAddProduct={showAddProduct}
-          setShowAlert={setShowAlert}
+          setShowAlertAddProduct={setShowAlertAddProduct}
         />
       )}
       {showUpdateProduct && (
         <UpdateProduct
           setShowUpdateProduct={setShowUpdateProduct}
           showUpdateProduct={showUpdateProduct}
+          setShowAlertUpdateProduct={setShowAlertUpdateProduct}
+          setShowAlertDeleteProduct={setShowAlertDeleteProduct}
           currentProduct={currentProduct}
         />
       )}
@@ -84,7 +98,7 @@ function ProductsList() {
             <th className="hidden md:table-cell p-4 text-center border border-slate-600 ...">
               categorie
             </th>
-            <th className="hidden lg:table-cell p-4 text-center border border-slate-600 ...">
+            <th className="hidden xl:table-cell p-4 text-center border border-slate-600 ...">
               image
             </th>
             <th className="hidden lg:table-cell p-4 text-center border border-slate-600 ...">
@@ -99,7 +113,7 @@ function ProductsList() {
             <th className="hidden md:table-cell p-4 text-center border border-slate-600 ...">
               prix promo
             </th>
-            <th className="hidden lg:table-cell p-4 text-center border border-slate-600 ...">
+            <th className="hidden xl:table-cell p-4 text-center border border-slate-600 ...">
               date d'ajout
             </th>
           </tr>
@@ -109,15 +123,13 @@ function ProductsList() {
             products.map((product) => (
               <tr key={product.id_product}>
                 <td className=" p-2 flex justify-center items-center border-slate-700">
-                  {/* <div className="picture-container h-16 w-16 md:w-32 h-32 p-1"> */}
                   <img
-                    className="h-20 w-10 md:h-32 w-28"
+                    className="h-24 w-10 md:h-32 w-28 "
                     src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
                       product.image
                     }`}
                     alt="profil"
                   />
-                  {/* </div> */}
                 </td>
                 <td className=" p-2 text-center border border-slate-700">
                   {product.id_product}
@@ -131,22 +143,22 @@ function ProductsList() {
                 <td className="hidden md:table-cell p-2 text-center border border-slate-700">
                   {product.title}
                 </td>
-                <td className="hidden lg:table-cell p-2 text-center border border-slate-700">
+                <td className="hidden xl:table-cell p-2 text-center border border-slate-700">
                   {product.image}
                 </td>
                 <td className="hidden lg:table-cell p-2 text-center border border-slate-700">
                   {product.color}
                 </td>
-                <td className="hidden lg:table-cell p-2 text-centerborder border-slate-700">
+                <td className="hidden lg:table-cell p-2 text-center border border-slate-700">
                   {product.size}
                 </td>
                 <td className="hidden md:table-cell p-2 text-center border border-slate-700">
                   {product.price}
                 </td>
                 <td className="hidden md:table-cell p-2 text-center border border-slate-700">
-                  {product.promotional_date}
+                  {product.promotionalPrice}
                 </td>
-                <td className="hidden lg:table-cell p-2 text-center border border-slate-700">
+                <td className="hidden xl:table-cell p-2 text-center border border-slate-700">
                   {product.adding_date}
                 </td>
                 <td className="w-16 mx-auto p-2 border text-center border-slate-700">

@@ -123,7 +123,10 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
                 id="addToCart"
                 type="submit"
                 className="px-5 py-2 bg-indigo-500 hover:bg-indigo-700 text-white cursor-pointer rounded-md"
-                onClick={() => handleAddItem(currentProduct)}
+                onClick={() => {
+                  handleAddItem(currentProduct);
+                  setOpenModal(false);
+                }}
               >
                 add to cart
               </button>

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import inputValidationRules from "../../services/inputValidationRules";
 
-export default function UpdateUser({ setShowUpdateUser, currentUser }) {
+export default function UpdateUser({
+  setShowUpdateUser,
+  setShowAlertUpdateUser,
+  setShowAlertDeleteUser,
+  currentUser,
+}) {
   const [firstname, setFirstname] = useState(" ");
   const [lastname, setLastname] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [role, setRole] = useState(0);
-
   const [rolesData, setRolesData] = useState([]);
 
   useEffect(() => {
@@ -23,29 +26,27 @@ export default function UpdateUser({ setShowUpdateUser, currentUser }) {
   const handleUpdateUser = (event) => {
     event.preventDefault();
 
-    const isValidForm = Object.values(
-      inputValidationRules(firstname, lastname, email)
-    ).every((key) => key);
-
-    if (isValidForm) {
-      axios
-        .put(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${currentUser.id_user}`,
-          {
-            user: {
-              firstname: firstname !== " " ? firstname : currentUser.firstname,
-              lastname: lastname !== " " ? lastname : currentUser.lastname,
-              email: email !== " " ? email : currentUser.email,
-              role: role !== 0 ? role : currentUser.id_role,
-            },
-          }
-        )
-        .catch((err) => {
-          console.info(err);
-        });
-      setShowUpdateUser(false);
-    } else console.info("une erreur est survenue");
+    axios
+      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${currentUser.id_user}`, {
+        user: {
+          firstname: firstname !== " " ? firstname : currentUser.firstname,
+          lastname: lastname !== " " ? lastname : currentUser.lastname,
+          email: email !== " " ? email : currentUser.email,
+          role: role !== 0 ? role : currentUser.role_id,
+          id_user: currentUser.id_user,
+        },
+      })
+      .then((res) => {
+        if (res.status === 204) {
+          setShowAlertUpdateUser(true);
+        }
+      })
+      .catch((err) => {
+        console.info(err);
+      });
+    setShowUpdateUser(false);
   };
+
   const handleDeleteUser = (e) => {
     e.preventDefault();
     axios
@@ -55,7 +56,7 @@ export default function UpdateUser({ setShowUpdateUser, currentUser }) {
       )
       .then((res) => {
         if (res.status === 204) {
-          console.info(res.data);
+          setShowAlertDeleteUser(true);
         }
       })
 
@@ -135,9 +136,9 @@ export default function UpdateUser({ setShowUpdateUser, currentUser }) {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="role"
                   defaultValue="rôle"
-                  onClick={(e) => setRole(parseInt(e.target.value, 10))}
+                  onChange={(e) => setRole(parseInt(e.target.value, 10))}
                 >
-                  <option value="--">--</option>
+                  <option value="--">Choisissez un rôle</option>
                   {rolesData.map((r) => (
                     <option key={r.id_role} value={r.id_role}>
                       {r.title}
@@ -173,5 +174,7 @@ export default function UpdateUser({ setShowUpdateUser, currentUser }) {
 
 UpdateUser.propTypes = {
   setShowUpdateUser: PropTypes.func.isRequired,
+  setShowAlertUpdateUser: PropTypes.func.isRequired,
+  setShowAlertDeleteUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape().isRequired,
 };

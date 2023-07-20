@@ -9,9 +9,12 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import NavLayout from "./layouts/NavLayout";
 import WrongPage from "./pages/WrongPage";
 import Basket from "./pages/Basket";
+import Contact from "./pages/Contact";
 
 function App() {
   const [carts, setCarts] = useState([]);
+  const [showAlertProductAddToCart, setShowAlertProductAddToCart] =
+    useState(false);
 
   const handleAddItem = (clickedItem) => {
     setCarts((prev) => {
@@ -27,6 +30,7 @@ function App() {
       }
       return [...prev, { ...clickedItem, quantity: 1 }];
     });
+    setShowAlertProductAddToCart(true);
   };
   return (
     <BrowserRouter>
@@ -34,7 +38,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<AllProducts handleAddItem={handleAddItem} />}
+          element={
+            <AllProducts
+              handleAddItem={handleAddItem}
+              setShowAlertProductAddToCart={setShowAlertProductAddToCart}
+              showAlertProductAddToCart={showAlertProductAddToCart}
+            />
+          }
         />
         <Route
           path="/panier"
@@ -47,7 +57,7 @@ function App() {
           }
         />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/contact" element={<AllProducts />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<WrongPage />} />
 
         {/* private routes  */}

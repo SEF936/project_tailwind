@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import inputValidationRules from "../../services/inputValidationRules";
 
-export default function AddUser({ setShowAddUser }) {
+export default function AddUser({
+  setShowAddUser,
+  setShowAlertAddUser,
+  setShowAlertEmailNotDispo,
+}) {
   // const [newUploadedFileName, setNewUploadedFileName] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -38,10 +42,18 @@ export default function AddUser({ setShowAddUser }) {
           password,
           role,
         })
+        .then((res) => {
+          if (res.status === 201) {
+            setShowAddUser(false);
+            setShowAlertAddUser(true);
+          }
+        })
+
         .catch((err) => {
+          setShowAlertEmailNotDispo(true);
           console.info(err);
         });
-    } else console.info("une erreur");
+    } else console.info("error");
   };
 
   return (
@@ -153,4 +165,6 @@ export default function AddUser({ setShowAddUser }) {
 
 AddUser.propTypes = {
   setShowAddUser: PropTypes.func.isRequired,
+  setShowAlertAddUser: PropTypes.func.isRequired,
+  setShowAlertEmailNotDispo: PropTypes.func.isRequired,
 };

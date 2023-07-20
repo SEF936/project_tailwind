@@ -72,7 +72,7 @@ function Basket({ setCarts, carts, handleAddItem }) {
             </div>
             <div className="w-12 flex items-center justify-center pr-2">
               <span>
-                {cart.price * cart.quantity} {cart.currency}
+                {(cart.price * cart.quantity).toFixed(2)} {cart.currency}
               </span>
             </div>
           </div>
@@ -81,7 +81,7 @@ function Basket({ setCarts, carts, handleAddItem }) {
           <p className="">
             {" "}
             <span className="">Total du panier: </span>
-            {Math.round(totalItemsPrice * 100) / 100} €
+            {totalItemsPrice.toFixed(2)} €
           </p>
         </div>
       </article>
@@ -92,7 +92,6 @@ Basket.propTypes = {
   carts: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
   setCarts: PropTypes.func.isRequired,
   handleAddItem: PropTypes.func.isRequired,
-  // resetCarts: PropTypes.func.isRequired,
 };
 
 export default Basket;

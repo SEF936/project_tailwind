@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import oeil from "../assets/view.png";
 import AddUser from "./admin/AddUser";
 import UpdateUser from "./admin/UpdateUser";
@@ -9,6 +11,10 @@ function UsersList() {
   const [showUpdateUser, setShowUpdateUser] = useState(false);
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
+  const [showAlertAddUser, setShowAlertAddUser] = useState(false);
+  const [showAlertUpdateUser, setShowAlertUpdateUser] = useState(false);
+  const [showAlertDeleteUser, setShowAlertDeleteUser] = useState(false);
+  const [showAlertEmailNotDispo, setShowAlertEmailNotDispo] = useState(false);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/users`, {
@@ -18,13 +24,57 @@ function UsersList() {
         setUsers(res.data);
       })
       .catch((err) => console.error(err));
-  }, [showAddUser, setShowAddUser, showUpdateUser, setShowUpdateUser]);
+  }, [showAlertAddUser, showAlertUpdateUser, showAlertDeleteUser]);
+
+  const handleClose = () => {
+    setShowAlertAddUser(false);
+    setShowAlertUpdateUser(false);
+    setShowAlertDeleteUser(false);
+    setShowAlertEmailNotDispo(false);
+  };
+  setTimeout(handleClose, 3000);
   return (
     <div className="display">
-      {showAddUser && <AddUser setShowAddUser={setShowAddUser} />}
+      {showAlertEmailNotDispo && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="error" onClose={handleClose}>
+            Email déjà utilisé
+          </Alert>
+        </Stack>
+      )}
+      {showAlertAddUser && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Utilisateur ajouté
+          </Alert>
+        </Stack>
+      )}
+      {showAlertUpdateUser && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Utilisateur modifié
+          </Alert>
+        </Stack>
+      )}
+      {showAlertDeleteUser && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success" onClose={handleClose}>
+            Utilisateur supprimé
+          </Alert>
+        </Stack>
+      )}
+      {showAddUser && (
+        <AddUser
+          setShowAddUser={setShowAddUser}
+          setShowAlertAddUser={setShowAlertAddUser}
+          setShowAlertEmailNotDispo={setShowAlertEmailNotDispo}
+        />
+      )}
       {showUpdateUser && (
         <UpdateUser
           setShowUpdateUser={setShowUpdateUser}
+          setShowAlertUpdateUser={setShowAlertUpdateUser}
+          setShowAlertDeleteUser={setShowAlertDeleteUser}
           currentUser={currentUser}
         />
       )}
@@ -56,14 +106,6 @@ function UsersList() {
           {users &&
             users.map((user) => (
               <tr key={user.id_user}>
-                {/* <div className="picture-container">
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
-                      user.photo
-                    }`}
-                    alt="profil"
-                  />
-                </div> */}
                 <td className=" p-2 border border-slate-700">
                   {user.lastname}
                 </td>
