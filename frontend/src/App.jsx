@@ -9,6 +9,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import NavLayout from "./layouts/NavLayout";
 import WrongPage from "./pages/WrongPage";
 import Basket from "./pages/Basket";
+import Contact from "./pages/Contact";
 
 function App() {
   const [carts, setCarts] = useState([]);
@@ -56,7 +57,7 @@ function App() {
           }
         />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/contact" element={<AllProducts />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<WrongPage />} />
 
         {/* private routes  */}
