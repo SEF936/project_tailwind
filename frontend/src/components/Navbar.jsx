@@ -7,9 +7,10 @@ function Navbar() {
   return (
     <nav className="bg-white md:px-8 border-gray-200 bg-white">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
-        <a href="https://flowbite.com/" className="flex items-center">
-          <img src={logo} className="h-16" alt="Flowbite Logo" />
-        </a>
+        <Link to="/">
+          <img src={logo} className="h-16" alt="bibi logo" />
+        </Link>
+
         <button
           data-collapse-toggle="navbar-default"
           type="button"
