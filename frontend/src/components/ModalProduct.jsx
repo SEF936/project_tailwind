@@ -8,7 +8,7 @@ function ModalProduct({ setOpenModal, currentProduct, handleAddItem }) {
       id="overlay"
       className="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center"
     >
-      <div className="h-auto overflow-scroll w-full m-4 lg:m-36 bg-white md:flex flex-col md:my-auto">
+      <div className="h-5/6— overflow-scroll w-full m-4 lg:m-36 bg-white md:flex flex-col md:my-auto">
         <div className="flex justify-end w-full">
           <button
             className="text-black text-xl place-self-end mr-2"
