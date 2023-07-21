@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 function CardProduct({ product, setOpenModal, setCurrentProduct }) {
   return (
     <button
-      className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+      className=" flex  mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
       type="button"
       onClick={() => {
         setOpenModal(true);

@@ -37,7 +37,7 @@ function Basket({ setCarts, carts, handleAddItem }) {
             className="flex flex-col border-solid border-2 border-zinc-600 items-center md:flex-row md:h-36 md:justify-between md:items-center "
             key={cart.id_product}
           >
-            <div className="flex flex-col items-center md:flex-row p-2 gap-2 ">
+            <div className="flex flex-col items-center md:flex-row p-2 gap-2 md:w-3/5">
               <img
                 className="h-32 w-24"
                 src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
@@ -70,8 +70,9 @@ function Basket({ setCarts, carts, handleAddItem }) {
                 Remove
               </button>
             </div>
-            <div className="w-12 flex items-center justify-center pr-2">
-              <span>
+            <div className="w-36 m-4 flex items-end justify-center pr-2 gap-2">
+              <p>Prix: </p>
+              <span className="text-2xl">
                 {(cart.price * cart.quantity).toFixed(2)} {cart.currency}
               </span>
             </div>
